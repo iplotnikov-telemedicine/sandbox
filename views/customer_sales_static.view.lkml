@@ -69,6 +69,7 @@ view: customer_sales_static {
   }
 
   dimension: sales_volume {
+    hidden: yes
     type: number
     sql: ${TABLE}.sales_vol_after_tax ;;
   }
