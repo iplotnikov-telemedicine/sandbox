@@ -15,6 +15,34 @@ view: customer_sales_static {
     sql: ${TABLE}.channel ;;
   }
 
+  dimension: is_sweede {
+    type: yesno
+    sql: ${channel} = "sweede" ;;
+  }
+
+  # dimension: custom_channel {
+  # # in-store
+  #   type: string
+  #   case: {
+  #     when: {
+  #       sql: ${channel} = "sweede" and ${type} = "pickup" ;;
+  #       label: "pick-up: from Sweede"
+  #     }
+  #     when: {
+  #       sql: ${channel} <> "sweede" and ${type} = "pickup" ;;
+  #       label: "pick-up: NOT from Sweede"
+  #     }
+  #     when: {
+  #       sql: ${channel} = "sweede" and ${type} = "delivery" ;;
+  #       label: "delivery: from Sweede"
+  #     }
+  #     when: {
+  #       sql: ${channel} <> "sweede" and ${type} = "delivery" ;;
+  #       label: "delivery: NOT from Sweede"
+  #     else: "Label If No Condition Met"
+  #   }
+  # }
+
   dimension: comp_id {
     type: number
     sql: ${TABLE}.comp_id ;;
@@ -35,10 +63,6 @@ view: customer_sales_static {
     sql: ${TABLE}.report_month ;;
   }
 
-  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
-  # measures for this dimension, but you can also add measures of many different aggregates.
-  # Click on the type parameter to see all the options in the Quick Help panel on the right.
-
   dimension: report_year {
     type: number
     sql: ${TABLE}.report_year ;;
@@ -55,6 +79,10 @@ view: customer_sales_static {
   }
 
   dimension: type {
+    # delivery
+    # mail_delivery
+    # none
+    # on_demand
     type: string
     sql: ${TABLE}.type ;;
   }
