@@ -50,10 +50,10 @@ view: prod_companies {
   #   sql: ${TABLE}.autologin_hash ;;
   # }
 
-  # dimension: business_type {
-  #   type: string
-  #   sql: ${TABLE}.business_type ;;
-  # }
+  dimension: business_type {
+    type: string
+    sql: IFNULL(${TABLE}.business_type, 'Unspecified') ;;
+  }
 
   # dimension: city_id {
   #   type: number
@@ -140,10 +140,10 @@ view: prod_companies {
   #   sql: ${TABLE}.comp_is_approved ;;
   # }
 
-  # dimension: comp_is_disabled {
-  #   type: yesno
-  #   sql: ${TABLE}.comp_is_disabled ;;
-  # }
+  dimension: is_disabled {
+    type: yesno
+    sql: ${TABLE}.comp_is_disabled ;;
+  }
 
   # dimension: comp_location_type {
   #   type: string
@@ -185,25 +185,25 @@ view: prod_companies {
   #   sql: ${TABLE}.comp_user_id ;;
   # }
 
-  # dimension: country_id {
-  #   type: number
-  #   sql: ${TABLE}.country_id ;;
-  # }
+  dimension: country_id {
+    type: number
+    sql: ${TABLE}.country_id ;;
+  }
 
   # dimension: county_id {
   #   type: number
   #   sql: ${TABLE}.county_id ;;
   # }
 
-  # dimension: county_name {
-  #   type: string
-  #   sql: ${TABLE}.county_name ;;
-  # }
+  dimension: county_name {
+    type: string
+    sql: ${TABLE}.county_name ;;
+  }
 
-  # dimension: courier_limit {
-  #   type: number
-  #   sql: ${TABLE}.courier_limit ;;
-  # }
+  dimension: courier_limit {
+    type: number
+    sql: ${TABLE}.courier_limit ;;
+  }
 
   # # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # # Looker converts dates and timestamps to the specified timeframes within the dimension group.
@@ -287,15 +287,15 @@ view: prod_companies {
   #   sql: ${TABLE}.google_geocoding_api_key ;;
   # }
 
-  # dimension: has_unpaid_invoice {
-  #   type: yesno
-  #   sql: ${TABLE}.has_unpaid_invoice ;;
-  # }
+  dimension: has_unpaid_invoice {
+    type: yesno
+    sql: ${TABLE}.has_unpaid_invoice ;;
+  }
 
-  # dimension: hear_about_us {
-  #   type: string
-  #   sql: ${TABLE}.hear_about_us ;;
-  # }
+  dimension: hear_about_us {
+    type: string
+    sql: IFNULL(${TABLE}.hear_about_us, "Unspecified") ;;
+  }
 
   # dimension: in_app_receipt {
   #   type: string
@@ -342,10 +342,10 @@ view: prod_companies {
   #   sql: ${TABLE}.is_create_zenmd_patients ;;
   # }
 
-  # dimension: is_delivery {
-  #   type: yesno
-  #   sql: ${TABLE}.is_delivery ;;
-  # }
+  dimension: is_delivery {
+    type: yesno
+    sql: ${TABLE}.is_delivery ;;
+  }
 
   # dimension: is_enabled_empty_phone_and_email_notifications {
   #   type: yesno
@@ -372,10 +372,10 @@ view: prod_companies {
   #   sql: ${TABLE}.is_enabled_powered_by_line_in_receipt ;;
   # }
 
-  # dimension: is_enabled_sms_integration {
-  #   type: yesno
-  #   sql: ${TABLE}.is_enabled_sms_integration ;;
-  # }
+  dimension: using_twillio {
+    type: yesno
+    sql: ${TABLE}.is_enabled_sms_integration ;;
+  }
 
   # dimension: is_hide_in_search_on_potify {
   #   type: yesno
@@ -402,10 +402,29 @@ view: prod_companies {
   #   sql: ${TABLE}.is_potify_create_patient ;;
   # }
 
-  # dimension: is_recurly_dunning_last {
-  #   type: yesno
-  #   sql: ${TABLE}.is_recurly_dunning_last ;;
-  # }
+  dimension: is_recurly_dunning_last {
+    type: yesno
+    sql: ${TABLE}.is_recurly_dunning_last ;;
+  }
+
+  dimension: recurly_status {
+    type: string
+    case: {
+      when: {
+        sql: ${is_disabled} = 'Yes';;
+        label: "Your account is temporarily suspended"
+      }
+      when: {
+        sql: ${is_disabled} = 'No' and ${has_unpaid_invoice} = 'Yes' and ${is_recurly_dunning_last} = 'No';;
+        label: "You’ve got unpaid invoice"
+      }
+      when: {
+        sql: ${is_disabled} = 'No' and ${has_unpaid_invoice} = 'Yes'and ${is_recurly_dunning_last} = 'Yes' ;;
+        label: "Your account has lapsed due to non-payment"
+      }
+      else: "You are good to go"
+    }
+  }
 
   # dimension: is_reserve_print {
   #   type: yesno
@@ -461,20 +480,20 @@ view: prod_companies {
   #   sql: ${TABLE}.location_id ;;
   # }
 
-  # dimension: locations_count {
-  #   type: number
-  #   sql: ${TABLE}.locations_count ;;
-  # }
+  dimension: locations_count {
+    type: number
+    sql: ${TABLE}.locations_count ;;
+  }
 
-  # dimension: ondemand_offices_count {
-  #   type: number
-  #   sql: ${TABLE}.ondemand_offices_count ;;
-  # }
+  dimension: ondemand_offices_limit {
+    type: number
+    sql: ${TABLE}.ondemand_offices_count ;;
+  }
 
-  # dimension: ondemand_storages_count {
-  #   type: number
-  #   sql: ${TABLE}.ondemand_storages_count ;;
-  # }
+  dimension: ondemand_storages_limit {
+    type: number
+    sql: ${TABLE}.ondemand_storages_count ;;
+  }
 
   # dimension: paid_email_limit {
   #   type: number
@@ -486,10 +505,11 @@ view: prod_companies {
   #   sql: ${TABLE}.phone ;;
   # }
 
-  # dimension: plan {
-  #   type: number
-  #   sql: ${TABLE}.plan ;;
-  # }
+  dimension: plan_id {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.plan ;;
+  }
 
   # dimension: plan_to_use {
   #   type: string
@@ -568,10 +588,15 @@ view: prod_companies {
   #   sql: ${TABLE}.project_type ;;
   # }
 
-  # dimension: recurly_account_id {
-  #   type: string
-  #   sql: ${TABLE}.recurly_account_id ;;
-  # }
+  dimension: recurly_account_id {
+    type: string
+    sql: ${TABLE}.recurly_account_id ;;
+  }
+
+  dimension: is_recurly_account {
+    type: yesno
+    sql: ${recurly_account_id} IS NOT NULL ;;
+  }
 
   # dimension_group: recurly_dunning {
   #   type: time
@@ -625,10 +650,11 @@ view: prod_companies {
   #   sql: ${TABLE}.recurly_trial_expired_at ;;
   # }
 
-  # dimension: recurly_unpaid_invoice_id {
-  #   type: string
-  #   sql: ${TABLE}.recurly_unpaid_invoice_id ;;
-  # }
+  dimension: recurly_unpaid_invoice_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}.recurly_unpaid_invoice_id ;;
+  }
 
   # dimension: recurly_unpaid_invoice_number {
   #   type: number
@@ -654,10 +680,10 @@ view: prod_companies {
   #   sql: ${TABLE}.ref_number ;;
   # }
 
-  # dimension: register_limit {
-  #   type: number
-  #   sql: ${TABLE}.register_limit ;;
-  # }
+  dimension: register_limit {
+    type: number
+    sql: ${TABLE}.register_limit ;;
+  }
 
   # dimension: reserve_print_limit {
   #   type: number
@@ -699,20 +725,20 @@ view: prod_companies {
   #   sql: ${TABLE}.sparkpost_subaccount_api_key ;;
   # }
 
-  # dimension: staff_count {
-  #   type: number
-  #   sql: ${TABLE}.staff_count ;;
-  # }
+  dimension: staff_count {
+    type: number
+    sql: ${TABLE}.staff_count ;;
+  }
 
   # dimension: state_id {
   #   type: number
   #   sql: ${TABLE}.state_id ;;
   # }
 
-  # dimension: state_name {
-  #   type: string
-  #   sql: ${TABLE}.state_name ;;
-  # }
+  dimension: state_name {
+    type: string
+    sql: ${TABLE}.state_name ;;
+  }
 
   # dimension: storages_count {
   #   type: number
@@ -805,30 +831,30 @@ view: prod_companies {
   #   sql: ${TABLE}.title ;;
   # }
 
-  # dimension_group: trial {
-  #   type: time
-  #   timeframes: [
-  #     raw,
-  #     date,
-  #     week,
-  #     month,
-  #     quarter,
-  #     year
-  #   ]
-  #   convert_tz: no
-  #   datatype: date
-  #   sql: ${TABLE}.trial_date ;;
-  # }
+  dimension_group: trial_date {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.trial_date ;;
+  }
 
-  # dimension: tv_device_limit {
-  #   type: number
-  #   sql: ${TABLE}.tv_device_limit ;;
-  # }
+  dimension: tv_device_limit {
+    type: number
+    sql: ${TABLE}.tv_device_limit ;;
+  }
 
-  # dimension: use_pos {
-  #   type: string
-  #   sql: ${TABLE}.use_pos ;;
-  # }
+  dimension: use_pos {
+    type: string
+    sql: ${TABLE}.use_pos ;;
+  }
 
   # dimension: use_special_dispensaries {
   #   type: yesno

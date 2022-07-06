@@ -7,10 +7,62 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
 #
-explore: customer_sales_static {
+explore: customer_patients {}
 
-  join: prod_companies {
+explore: customer_products {}
+
+explore: customer_registers {}
+
+explore: customer_sales_static {}
+
+explore: customer_history {}
+
+explore: customers {
+  from: prod_companies
+
+  join: customer_history {
+    relationship: one_to_one
+    sql_on:  ${customers.comp_id} = ${customer_history.comp_id} ;;
+  }
+
+  join: customer_offices {
+    relationship: one_to_one
+    sql_on:  ${customers.comp_id} = ${customer_offices.office_comp_id} ;;
+  }
+
+  join: country {
     relationship: many_to_one
-    sql_on:  ${customer_sales_static.comp_id} = ${prod_companies.comp_id} ;;
+    sql_on:  ${customers.country_id} = ${country.id} ;;
+  }
+
+  join: patients_by_customer {
+    relationship: one_to_one
+    sql_on:  ${customers.comp_id} = ${patients_by_customer.comp_id} ;;
+  }
+
+  join: products_by_customer {
+    relationship: one_to_one
+    sql_on:  ${customers.comp_id} = ${products_by_customer.comp_id} ;;
+  }
+
+  join: registers_by_customer {
+    relationship: one_to_one
+    sql_on:  ${customers.comp_id} = ${registers_by_customer.comp_id} ;;
+  }
+
+  join: subscription_plans {
+    from: package
+    relationship: many_to_one
+    sql_on:  ${customers.plan_id} = ${subscription_plans.id} ;;
+  }
+
+  join: offices {
+    relationship: one_to_many
+    sql_on:  ${customers.comp_id} = ${offices.office_comp_id} ;;
+  }
+
+  join: customer_sales_static {
+    relationship: one_to_many
+    sql_on:  ${customers.comp_id} = ${customer_sales_static.comp_id} ;;
   }
 }
