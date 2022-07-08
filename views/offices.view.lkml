@@ -590,13 +590,16 @@ view: offices {
 
   measure: ondemand_storages_count {
     type:  count
-    filters: [selling_type: "ondemand_storage"]
+    filters: [selling_type: "on-demand storage"]
   }
 
   measure: ordinary_storages_count {
     type:  count
     filters: [selling_type: "ordinary storage"]
   }
+
+
+
 
 
   # dimension: shop_logo {

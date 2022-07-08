@@ -14,33 +14,73 @@ view: customer_offices {
     }
     # persist_for: "24 hours"
   }
+
   dimension: office_comp_id {
     hidden: yes
     type: number
   }
+
   dimension: ondemand_offices_count {
     description: "On-demand office count"
     type: number
   }
+
+  dimension: ondemand_offices_tier {
+    type: tier
+    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    style: integer
+    sql: ${ondemand_offices_count} ;;
+    # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
+  }
+
   dimension: ondemand_storages_count {
     description: "On-demand storage count"
     type: number
   }
+
+  dimension: ondemand_storages_tier {
+    type: tier
+    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    style: integer
+    sql: ${ondemand_storages_count} ;;
+    # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
+  }
+
   dimension: ordinary_storages_count {
     description: "Storefront office storage count"
     type: number
   }
+
+  dimension: ordinary_storages_tier {
+    type: tier
+    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    style: integer
+    sql: ${ordinary_storages_count} ;;
+    # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
+  }
+
   dimension: storefront_offices_count {
     description: "Storefront office count"
     type: number
   }
+
+  dimension: storefront_offices_tier {
+    type: tier
+    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    style: integer
+    sql: ${storefront_offices_count} ;;
+    # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
+  }
+
   dimension: sweede_accept_offices_count {
     description: "# of Sweede office accepting orders now"
     type: number
   }
+
   dimension: sweede_offices_count {
     description: "Total Sweede office count"
     type: number
   }
+
 
 }
