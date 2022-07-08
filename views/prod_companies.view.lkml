@@ -886,10 +886,9 @@ view: prod_companies {
   #   sql: ${TABLE}.zip_name ;;
   # }
 
-  # measure: count {
-  #   type: count
-  #   drill_fields: [detail*]
-  # }
+  measure: customer_count {
+    type: count
+  }
 
   # ----- Sets of fields for drilling ------
   # set: detail {

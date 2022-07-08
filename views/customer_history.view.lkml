@@ -5,8 +5,8 @@ view: customer_history {
   derived_table: {
     explore_source: customer_sales_static {
       column: comp_id { field: customer_sales_static.comp_id }
-      column: min_report_month { field: customer_sales_static.min_report_month }
-      column: max_report_month { field: customer_sales_static.max_report_month }
+      column: first_sales_month { field: customer_sales_static.min_report_month }
+      column: last_sales_month { field: customer_sales_static.max_report_month }
       column: months_with_io { field: customer_sales_static.months_with_io }
       column: sweede_sales_offices_count { field: customer_sales_static.sweede_sales_offices_count }
     }
@@ -16,13 +16,13 @@ view: customer_history {
     hidden: yes
     type: number
   }
-  dimension: min_report_month {
+  dimension: first_sales_month {
     description: "First month company has sales via IO"
-    type: date
+    type: date_month
   }
-  dimension: max_report_month {
+  dimension: last_sales_month {
     description: "Last month company has sales via IO"
-    type: date
+    type: date_month
   }
   dimension: months_with_io {
     description: "Number of Months with IO"
