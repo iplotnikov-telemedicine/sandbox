@@ -28,7 +28,7 @@ view: patients_by_customer {
 
   dimension: total_patients_tier {
     type: tier
-    tiers: [0,1000,3000,10000,30000,100000,200000]
+    tiers: [0,1,1000,3000,10000,30000,100000,200000]
     style: integer
     sql: ${total_patients_count} ;;
     # Bins: 0, 1-999, 1000-2999, 3000-9999, 10000-29999, 30000-99999, 100000-199999, >=200000

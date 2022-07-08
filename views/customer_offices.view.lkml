@@ -27,7 +27,7 @@ view: customer_offices {
 
   dimension: ondemand_offices_tier {
     type: tier
-    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    tiers: [0,1,5,15,30,50,100,200,400,800,1600]
     style: integer
     sql: ${ondemand_offices_count} ;;
     # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
@@ -40,7 +40,7 @@ view: customer_offices {
 
   dimension: ondemand_storages_tier {
     type: tier
-    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    tiers: [0,1,5,15,30,50,100,200,400,800,1600]
     style: integer
     sql: ${ondemand_storages_count} ;;
     # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
@@ -53,7 +53,7 @@ view: customer_offices {
 
   dimension: ordinary_storages_tier {
     type: tier
-    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    tiers: [0,1,5,15,30,50,100,200,400,800,1600]
     style: integer
     sql: ${ordinary_storages_count} ;;
     # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
@@ -66,7 +66,7 @@ view: customer_offices {
 
   dimension: storefront_offices_tier {
     type: tier
-    tiers: [0,5,15,30,50,100,200,400,800,1600]
+    tiers: [0,1,5,15,30,50,100,200,400,800,1600]
     style: integer
     sql: ${storefront_offices_count} ;;
     # Bins: 1-4, 5-14, 15-29, 30-49, 50-99, 100-199, 200-399, 400-799, 800-1599, >=1600
