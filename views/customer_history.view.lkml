@@ -3,12 +3,12 @@
 
 view: customer_history {
   derived_table: {
-    explore_source: customer_sales_static {
-      column: comp_id { field: customer_sales_static.comp_id }
-      column: first_sales_month { field: customer_sales_static.min_report_month }
-      column: last_sales_month { field: customer_sales_static.max_report_month }
-      column: months_with_io { field: customer_sales_static.months_with_io }
-      column: sweede_sales_offices_count { field: customer_sales_static.sweede_sales_offices_count }
+    explore_source: customer_sales {
+      column: comp_id { field: customer_sales.comp_id }
+      column: first_sales_month { field: customer_sales.min_report_month }
+      column: last_sales_month { field: customer_sales.max_report_month }
+      column: months_with_io { field: customer_sales.months_with_io }
+      column: sweede_sales_offices_count { field: customer_sales.sweede_sales_offices_count }
     }
     # persist_for: "24 hours"
   }

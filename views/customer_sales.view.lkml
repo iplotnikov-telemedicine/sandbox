@@ -1,5 +1,5 @@
 # The name of this view in Looker is "Customer Sales Static"
-view: customer_sales_static {
+view: customer_sales {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
   sql_table_name: looker_tmp.customer_sales ;;

@@ -13,7 +13,7 @@ explore: customer_products {}
 
 explore: customer_registers {}
 
-explore: customer_sales_static {}
+explore: customer_sales {}
 
 explore: customer_history {}
 
@@ -61,8 +61,8 @@ explore: customers {
     sql_on:  ${customers.comp_id} = ${offices.office_comp_id} ;;
   }
 
-  join: customer_sales_static {
+  join: customer_sales {
     relationship: one_to_many
-    sql_on:  ${customers.comp_id} = ${customer_sales_static.comp_id} ;;
+    sql_on:  ${customers.comp_id} = ${customer_sales.comp_id} ;;
   }
 }
