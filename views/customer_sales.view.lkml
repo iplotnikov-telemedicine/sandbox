@@ -104,12 +104,6 @@ view: customer_sales {
     sql: ${TABLE}.report_month ;;
   }
 
-  # dimension: sales_volume {
-  #   hidden: yes
-  #   type: number
-  #   sql: ${TABLE}.sales_volume ;;
-  # }
-
   dimension: state_name {
     type: string
     sql: ${TABLE}.state_name ;;
@@ -146,6 +140,12 @@ view: customer_sales {
   measure: total_order_quantity {
     type: sum
     sql:  ${TABLE}.order_quantity;;
+  }
+
+  measure: avg_order_amount {
+    type: number
+    sql:  ${total_sales_volume} / ${total_order_quantity} ;;
+    value_format_name: usd
   }
 
   measure: delivery_sales_volume {
