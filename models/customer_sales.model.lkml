@@ -20,6 +20,11 @@ explore: customer_history {}
 explore: customers {
   from: prod_companies
 
+  join: customer_overall {
+    relationship: one_to_one
+    sql_on: 1=1 ;;
+  }
+
   join: customer_history {
     relationship: one_to_one
     sql_on:  ${customers.comp_id} = ${customer_history.comp_id} ;;
