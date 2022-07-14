@@ -143,6 +143,11 @@ view: customer_sales {
     value_format_name: usd_0
   }
 
+  measure: total_order_quantity {
+    type: sum
+    sql:  ${TABLE}.order_quantity;;
+  }
+
   measure: delivery_sales_volume {
     type: sum
     sql:  ${TABLE}.sales_volume;;
