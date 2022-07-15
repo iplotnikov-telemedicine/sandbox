@@ -17,6 +17,8 @@ explore: customer_sales {}
 
 explore: customer_history {}
 
+explore: cash_vs_terminal {}
+
 explore: customers {
   from: prod_companies
 
